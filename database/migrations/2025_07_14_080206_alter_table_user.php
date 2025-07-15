@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Add employee_id column to users table
-        Schema::table('users', function (Blueprint $table){
+
+        // Schema::table('employees', function (Blueprint $table) {
+        //     $table->string('fullname')->after('id');
+        // });
+
+        Schema::table('users', function (Blueprint $table) {
             $table->string('employee_id')->default('0');
         });
     }
@@ -23,8 +27,10 @@ return new class extends Migration
     public function down(): void
     {
         // Remove employee_id column from users table
-        Schema::table('users', function (Blueprint $table){
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('employee_id');
         });
+
+       
     }
 };
