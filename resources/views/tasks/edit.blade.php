@@ -36,17 +36,17 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="mb-4">
-                        <h3>Add Form Task</h3>
-                        <p>Please input the field</p>
-                    </div>
+                        @if (session('error'))
+                        <div class="alert alert-danger">{{session('error')}}</div>
+                        @endif
 
-                    <form action="{{ route('tasks.store') }}" method="POST">
+                    <form action="{{ route('tasks.update') }}" method="POST">
                         @csrf
+                        @method('PUT')
 
                         <div class="mb-4">
                             <label for="" class="form-label"><b>title</b></label>
-                            <input type="text" class="form-control" name="title" required>
+                            <input type="text" class="form-control" name="title" value="{{old('title', $task)}}"required>
                             @error('title')
                                 <div class="invalid-feedback"> {{ $message }} </div>
                             @enderror

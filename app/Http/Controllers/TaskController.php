@@ -31,15 +31,11 @@ class TaskController extends Controller
             'status' => 'required|string',
             'assigned_to' => 'required|integer',
         ]);
+    }
 
-        try {
-            Task::create($validated);
+    public function edit(Task $task){
+        $employees = Employee::all();
 
-            return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
-        } catch (\Exception $e) {
-            Log::error('Task creation failed: ' . $e->getMessage());
-
-            return redirect()->back()->withInput()->with('error', 'Failed to create task. Please try again.');
-        }
+        return view('tasks.edit', compact('task', 'employees'));
     }
 }
