@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="{{ asset('mazer/dist/assets/compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('mazer/dist/assets/compiled/css/app-dark.css ') }}">
     <link rel="stylesheet" href="{{ asset('mazer/dist/assets/compiled/css/iconly.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('mazer/dist/assets/extensions/simple-datatables/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('mazer/dist/assets/extensions/table-datatables.css') }}">
+
 </head>
 
 <body>
@@ -80,7 +84,7 @@
                         </li>
 
                         {{-- Menu Tasks --}}
-                         <li class="sidebar-item ">
+                        <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Tasks</span>
@@ -88,13 +92,13 @@
                         </li>
 
                         {{-- Menu Employees --}}
-                         <li class="sidebar-item ">
+                        <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
                                 <span>Employees</span>
                             </a>
                         </li>
-    
+
                         {{-- Menu Departemen --}}
                         <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
@@ -104,34 +108,43 @@
                         </li>
 
                         {{-- Menu Roles --}}
-                         <li class="sidebar-item ">
+                        <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-tag"></i>
                                 <span>Roles</span>
                             </a>
                         </li>
 
-                        
+
+                        {{-- Menu Roles --}}
+                        <li class="sidebar-item ">
+                            <a href="index.html" class='sidebar-link'>
+                                <i class="bi bi-calendar"></i>
+                                <span>Presences</span>
+                            </a>
+                        </li>
+
+
                         {{-- Menu Presences --}}
-                         <li class="sidebar-item ">
+                        <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-currency-dollar"></i>
                                 <span>Payrolls</span>
                             </a>
                         </li>
 
-                        
+
                         {{-- Menu leave request --}}
-                         <li class="sidebar-item ">
+                        <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-shift-fill"></i>
                                 <span>Leave Requests</span>
                             </a>
                         </li>
 
-                        
+
                         {{-- Menu Logout --}}
-                         <li class="sidebar-item ">
+                        <li class="sidebar-item ">
                             <a href="index.html" class='sidebar-link'>
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Log Out</span>
@@ -142,9 +155,9 @@
             </div>
         </div>
         <div id="main">
-           
-        @yield('content')
-        
+
+            @yield('content')
+
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
@@ -166,6 +179,9 @@
     <!-- Need: Apexcharts -->
     <script src=" {{ asset('mazer/dist/assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
     <script src=" {{ asset('mazer/dist/assets/static/js/pages/dashboard.js') }}"></script>
+
+    <script src=" {{ asset('mazer/dist/assets/extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
+    <script src=" {{ asset('mazer/dist/assets/static/js/pages/simple-datatables.js') }}"></script>
 
 </body>
 
