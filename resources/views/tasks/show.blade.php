@@ -28,44 +28,43 @@
 
     <section class="section">
         <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Show Data</h5>
+            </div>
             <div class="card-body">
-                <div class="mb-4">
-                    <h3>Task Details</h3>
-                    <p>Task data overview</p>
-                </div>
+               <div class="mb-3">
+                <label for="">Title</label>
+                <p>{{$task->title}}</p>
+               </div>
 
-                <form>
-                    <div class="mb-4">
-                        <label for="title" class="form-label"><b>Title</b></label>
-                        <input type="text" class="form-control" name="title" id="title"
-                            value="{{ $task->title }}" disabled>
-                    </div>
+                <div class="mb-3">
+                <label for="">Employee</label>
+                <p>{{$task->employee -> fullname}}</p>
+               </div>
 
-                    <div class="mb-4">
-                        <label for="description" class="form-label"><b>Description</b></label>
-                        <textarea class="form-control" id="description" rows="5" disabled>{{ $task->description }}</textarea>
-                    </div>
+                <div class="mb-3">
+                <label for="">Due Date</label>
+                <p>{{$task->due_date}}</p>
+               </div>
 
-                    <div class="mb-4">
-                        <label for="due_date" class="form-label"><b>Due Date</b></label>
-                        <input type="datetime-local" class="form-control" id="due_date"
-                            value="{{ \Carbon\Carbon::parse($task->due_date)->format('Y-m-d\TH:i') }}" disabled>
-                    </div>
+                <div class="mb-3">
+                <label for="">Status</label>
+                <p>
+                    @if ($task -> status == 'pending')
+                    <span class="text-success">{{ucfirst($task->status)}}</span>
+                    @else
+                     <span class="text-warning">{{ucfirst($task->status)}}</span>
+                                 
+                    @endif
+                </p>
+               </div>
 
-                    <div class="mb-4">
-                        <label for="status" class="form-label"><b>Status</b></label>
-                        <input type="text" class="form-control" id="status" value="{{ $task->status }}" disabled>
-                    </div>
+                <div class="mb-3">
+                <label for="">Description</label>
+                <p>{{$task->description}}</p>
+               </div>
 
-                    <div class="mb-4">
-                        <label for="assigned_to" class="form-label"><b>Assigned Employee</b></label>
-                        <input type="text" class="form-control" id="assigned_to"
-                            value="{{ $task->employee->fullname ?? 'N/A' }}" disabled>
-                    </div>
-
-                    <a href="{{ route('tasks.index') }}" class="btn btn-secondary">Back To List</a>
-                    <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning">Edit Task</a>
-                </form>
+               <a href="{{route('tasks.index')}}" class="btn btn-secondary">Back to List</a>
             </div>
         </div>
     </section>

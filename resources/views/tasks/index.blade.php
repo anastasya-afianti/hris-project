@@ -67,9 +67,9 @@
                             <td>
                                 <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-info btn-sm">View</a>
                                 @if ($task -> status == 'pending')
-                                <a href="" class="btn btn-success btn-sm">Mark ad Done</a>
+                                <a href="{{route('tasks.done', $task->id)}}" class="btn btn-success btn-sm">Mark ad Done</a>
                                 @else
-                                <a href="" class="btn btn-warning btn-sm">Mark as Pending</a>
+                                <a href="{{route('tasks.pending', $task->id)}}" class="btn btn-warning btn-sm">Mark as Pending</a>
                                 @endif
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning btn-sm">Edit</a>
 
