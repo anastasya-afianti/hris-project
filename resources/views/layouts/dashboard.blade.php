@@ -77,40 +77,40 @@
                         <li class="sidebar-title">Menu</li>
 
                         {{-- Menu Dashboard --}}
-                        <li class="sidebar-item active ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                            <a href="{{ url('/dashboard') }}" class='sidebar-link'>
                                 <i class="bi bi-check-circle-fill"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
                         {{-- Menu Tasks --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('tasks') ? 'active' : '' }} ">
+                            <a href="{{ url('/tasks') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Tasks</span>
                             </a>
                         </li>
 
                         {{-- Menu Employees --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('employees') ? 'active' : '' }} ">
+                            <a href="{{ url('/employees') }}" class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
                                 <span>Employees</span>
                             </a>
                         </li>
 
                         {{-- Menu Departemen --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('departments') ? 'active' : '' }} ">
+                            <a href="{{ url('/departments') }}" class='sidebar-link'>
                                 <i class="bi bi-briefcase"></i>
                                 <span>Departments</span>
                             </a>
                         </li>
 
                         {{-- Menu Roles --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('roles') ? 'active' : '' }} ">
+                            <a  href="{{ url('/roles') }}" class='sidebar-link'>
                                 <i class="bi bi-tag"></i>
                                 <span>Roles</span>
                             </a>
@@ -118,8 +118,8 @@
 
 
                         {{-- Menu Roles --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li  class="sidebar-item {{ request()->is('presences') ? 'active' : '' }} ">
+                            <a href="{{ url('/presences') }}" class='sidebar-link'>
                                 <i class="bi bi-calendar"></i>
                                 <span>Presences</span>
                             </a>

@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PresencesController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,6 +22,15 @@ Route::get('tasks/pending/{id}', [TaskController::class, 'pending'])->name('task
 
 //Handle Employee
 Route::resource('/employees', EmployeeController::class);
+
+// Handle department
+Route::resource('/departments', DepartmentController::class);
+
+// Handle Roles
+Route::resource('/roles', RoleController::class);
+
+// Handle presences
+Route::resource('/presences', PresencesController::class);
 
 
 Route::middleware('auth')->group(function () {
