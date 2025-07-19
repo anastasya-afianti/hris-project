@@ -127,8 +127,8 @@
 
 
                         {{-- Menu Presences --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li  class="sidebar-item {{ request()->is('payrolls') ? 'active' : '' }} ">
+                            <a href="{{ url('/payrolls') }}" class='sidebar-link'>
                                 <i class="bi bi-currency-dollar"></i>
                                 <span>Payrolls</span>
                             </a>

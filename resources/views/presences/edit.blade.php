@@ -1,93 +1,116 @@
 @extends('layouts.dashboard')
 
 @section('content')
-    <header class="mb-3">
-        <a href="#" class="burger-btn d-block d-xl-none">
-            <i class="bi bi-justify fs-3"></i>
-        </a>
-    </header>
+<header class="mb-3">
+    <a href="#" class="burger-btn d-block d-xl-none">
+        <i class="bi bi-justify fs-3"></i>
+    </a>
+</header>
 
-    <div class="page-heading">
-        <div class="page-title">
-            <div class="row">
-                <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Departments</h3>
-                    <p class="text-subtitle text-muted">Handle Departments Data</p>
-                </div>
-                <div class="col-12 col-md-6 order-md-2 order-first">
-                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Departments</li>
-                            <li class="breadcrumb-item active" aria-current="page">Edit</li>
-                        </ol>
-                    </nav>
-                </div>
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Presences</h3>
+                <p class="text-subtitle text-muted">Handle Presences Data</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Presences</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                    </ol>
+                </nav>
             </div>
         </div>
+    </div>
 
-        <section class="section">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
+    <section class="section">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
 
-            @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
+        @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-            <div class="card">
-                <div class="card-body">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h3>Edit Presences</h3>
+                    <p>Update the fields below</p>
+                </div>
+
+                <form action="{{ route('presences.update', $presences->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+
                     <div class="mb-4">
-                        <h3>Edit Departments</h3>
-                        <p>Update the fields below</p>
+                        <label for="employee_id" class="form-label"><b>Employee</b></label>
+                        <select name="employee_id" id="employee_id"
+                            class="form-control @error('employee_id') is-invalid @enderror" required>
+                            <option value="">-- Select Employee --</option>
+                            @foreach ($employees as $employee)
+                                <option value="{{ $employee->id }}"
+                                    {{ old('employee_id', $presences->employee_id) == $employee->id ? 'selected' : '' }}>
+                                    {{ $employee->fullname }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('employee_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
-                    <form action="{{ route('departments.update', $department->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <div class="mb-4">
+                        <label for="check_in" class="form-label"><b>Check In</b></label>
+                        <input type="time" name="check_in" id="check_in"
+                            class="form-control @error('check_in') is-invalid @enderror"
+                            value="{{ old('check_in', $presences->check_in) }}" required>
+                        @error('check_in')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="name" class="form-label"><b>Name</b></label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" name="name"
-                                id="name" value="{{ old('name', $department->name) }}" required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-4">
+                        <label for="check_out" class="form-label"><b>Check Out</b></label>
+                        <input type="time" name="check_out" id="check_out"
+                            class="form-control @error('check_out') is-invalid @enderror"
+                            value="{{ old('check_out', $presences->check_out) }}" required>
+                        @error('check_out')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
+                    <div class="mb-4">
+                        <label for="date" class="form-label"><b>Date</b></label>
+                        <input type="date" name="date" id="date"
+                            class="form-control @error('date') is-invalid @enderror"
+                            value="{{ old('date', $presences->date) }}" required>
+                        @error('date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="description" class="form-label"><b>Description</b></label>
-                            <textarea name="description" id="description" rows="5"
-                                class="form-control @error('description') is-invalid @enderror">{{ old('description', $department->description) }}</textarea>
-                            @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="mb-4">
+                        <label for="status" class="form-label"><b>Status</b></label>
+                        <select name="status" id="status"
+                            class="form-control @error('status') is-invalid @enderror" required>
+                            <option value="">-- Select Status --</option>
+                            <option value="present" {{ old('status', $presences->status) == 'present' ? 'selected' : '' }}>Present</option>
+                            <option value="absent" {{ old('status', $presences->status) == 'absent' ? 'selected' : '' }}>Absent</option>
+                        </select>
+                        @error('status')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                        <div class="mb-4">
-                            <label for="status" class="form-label"><b>Status</b></label>
-                            <select name="status" id="status" class="form-control @error('status') is-invalid @enderror"
-                                required>
-                                <option value="">-- Select Status --</option>
-                                <option value="active"
-                                    {{ old('status', $department->status) == 'active' ? 'selected' : '' }}>Active</option>
-                                <option value="non-active"
-                                    {{ old('status', $department->status) == 'non-active' ? 'selected' : '' }}>Non Active
-                                </option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-
-                        <button type="submit" class="btn btn-primary">Update Employee</button>
-                        <a href="{{ route('departments.index') }}" class="btn btn-secondary">Back To List</a>
-                    </form>
-
-                </div>
+                    <button type="submit" class="btn btn-primary">Update Presence</button>
+                    <a href="{{ route('presences.index') }}" class="btn btn-secondary">Back To List</a>
+                </form>
             </div>
-        </section>
-    </div>
+        </div>
+    </section>
+</div>
 @endsection
