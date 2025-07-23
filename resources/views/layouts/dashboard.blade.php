@@ -136,8 +136,8 @@
 
 
                         {{-- Menu leave request --}}
-                        <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->is('leave-requests') ? 'active' : '' }} ">
+                            <a href="{{ url('/leave-requests') }}" class='sidebar-link'>
                                 <i class="bi bi-shift-fill"></i>
                                 <span>Leave Requests</span>
                             </a>

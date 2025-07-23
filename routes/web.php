@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PresencesController;
 use App\Http\Controllers\PayrollController;
@@ -35,6 +36,13 @@ Route::resource('/presences', PresencesController::class);
 
 // Handle Payrolls
 Route::resource('/payrolls', PayrollController::class);
+Route::get('/payrolls/{payroll}/pdf', [PayrollController::class, 'exportPdf'])->name('payrolls.pdf');
+
+// Handle Leave Request
+Route::resource('/leave-requests',  LeaveRequestController::class);
+Route::get('leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm');
+Route::get('leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
+Route::get('leave-requests/pending/{id}', [LeaveRequestController::class, 'pending'])->name('leave-requests.pending');
 
 
 Route::middleware('auth')->group(function () {
