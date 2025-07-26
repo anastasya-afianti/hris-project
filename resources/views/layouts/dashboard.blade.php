@@ -76,6 +76,9 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
+                        @if (session('role') == 'HR')
+                            
+                        
                         {{-- Menu Dashboard --}}
                         <li class="sidebar-item {{ request()->is('dashboard') ? 'active' : '' }}">
                             <a href="{{ url('/dashboard') }}" class='sidebar-link'>
@@ -143,10 +146,46 @@
                             </a>
                         </li>
 
+                        @endif
+
+                        @if (!in_array(session('role'), ['HR', 'Finance', 'IT Support']))
+                           <li class="sidebar-item {{ request()->is('tasks') ? 'active' : '' }} ">
+                            <a href="{{ url('/tasks') }}" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Tasks</span>
+                            </a>
+                        </li>
+
+                         {{-- Menu Roles --}}
+                        <li  class="sidebar-item {{ request()->is('presences') ? 'active' : '' }} ">
+                            <a href="{{ url('/presences') }}" class='sidebar-link'>
+                                <i class="bi bi-calendar"></i>
+                                <span>Presences</span>
+                            </a>
+                        </li>
+
+                         {{-- Menu Presences --}}
+                        <li  class="sidebar-item {{ request()->is('payrolls') ? 'active' : '' }} ">
+                            <a href="{{ url('/payrolls') }}" class='sidebar-link'>
+                                <i class="bi bi-currency-dollar"></i>
+                                <span>Payrolls</span>
+                            </a>
+                        </li>
+
+
+                        {{-- Menu leave request --}}
+                        <li class="sidebar-item {{ request()->is('leave-requests') ? 'active' : '' }} ">
+                            <a href="{{ url('/leave-requests') }}" class='sidebar-link'>
+                                <i class="bi bi-shift-fill"></i>
+                                <span>Leave Requests</span>
+                            </a>
+                        </li>
+                            
+                        @endif
 
                         {{-- Menu Logout --}}
                         <li class="sidebar-item ">
-                            <a href="index.html" class='sidebar-link'>
+                            <a href="{{url('/logout')}}" class='sidebar-link'>
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Log Out</span>
                             </a>

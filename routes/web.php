@@ -15,34 +15,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware('auth')->group(function(){
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 //Handle Tasks
-Route::resource('/tasks', TaskController::class);
-Route::get('tasks/done/{id}', [TaskController::class, 'done'])->name('tasks.done');
-Route::get('tasks/pending/{id}', [TaskController::class, 'pending'])->name('tasks.pending');
+Route::resource('/tasks', TaskController::class)->middleware(['role:HR, Finance, IT Support']);
+Route::get('tasks/done/{id}', [TaskController::class, 'done'])->name('tasks.done')->middleware(['role:HR, Finance, IT Support']);
+Route::get('tasks/pending/{id}', [TaskController::class, 'pending'])->name('tasks.pending')->middleware(['role:HR, Finance, IT Support']);
 
 //Handle Employee
-Route::resource('/employees', EmployeeController::class);
+Route::resource('/employees', EmployeeController::class)->middleware(['role:HR']);
 
 // Handle department
-Route::resource('/departments', DepartmentController::class);
+Route::resource('/departments', DepartmentController::class)->middleware(['role:HR']);
 
 // Handle Roles
-Route::resource('/roles', RoleController::class);
+Route::resource('/roles', RoleController::class)->middleware(['role:HR']);
 
 // Handle presences
-Route::resource('/presences', PresencesController::class);
+Route::resource('/presences', PresencesController::class)->middleware(['role:HR, Finance, IT Support'])  ;
 
 // Handle Payrolls
-Route::resource('/payrolls', PayrollController::class);
-Route::get('/payrolls/{payroll}/pdf', [PayrollController::class, 'exportPdf'])->name('payrolls.pdf');
+Route::resource('/payrolls', PayrollController::class)->middleware(['role:HR, Finance, IT Support']);
+Route::get('/payrolls/{payroll}/pdf', [PayrollController::class, 'exportPdf'])->name('payrolls.pdf')->middleware(['role:HR, Finance, IT Support']);
 
 // Handle Leave Request
-Route::resource('/leave-requests',  LeaveRequestController::class);
-Route::get('leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm');
-Route::get('leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
-Route::get('leave-requests/pending/{id}', [LeaveRequestController::class, 'pending'])->name('leave-requests.pending');
+Route::resource('/leave-requests',  LeaveRequestController::class)->middleware(['role:HR, Finance, IT Support']);
+Route::get('leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm')->middleware(['role:HR']);
+Route::get('leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject')->middleware(['role:HR']);
+Route::get('leave-requests/pending/{id}', [LeaveRequestController::class, 'pending'])->name('leave-requests.pending')->middleware(['role:HR']);
+});
+
 
 
 Route::middleware('auth')->group(function () {
