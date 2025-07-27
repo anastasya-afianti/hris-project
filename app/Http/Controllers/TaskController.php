@@ -6,12 +6,20 @@ use App\Models\Employee;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
+
+        // Handle Job Roles HR tidak ditampilkan
+        if ((Auth::user()->employee?->role_id == '1')) {
+            $tasks = Task::all();
+        } else {
+            $tasks = Task::where('assigned_to', Auth::user()->employee?->id)->get();
+        }
+
         return view('tasks.index', compact('tasks'));
     }
 
@@ -62,14 +70,16 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
-    public function done (int $id){
+    public function done(int $id)
+    {
         $task = Task::find($id);
         $task->update(['status' => 'done']);
 
         return redirect()->route('tasks.index')->with('success', 'Task marked as done');
     }
 
-    public function pending (int $id){
+    public function pending(int $id)
+    {
         $task = Task::find($id);
         $task->update(['status' => 'pending']);
 

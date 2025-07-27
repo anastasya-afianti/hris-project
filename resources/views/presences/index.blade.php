@@ -44,7 +44,9 @@
                                 <th>Check Out</th>
                                 <th>Date</th>
                                 <th>Status</th>
+                                @if (Auth::user()->employee?->role_id == '1')
                                 <th>Action</th>
+                                @endif
                             </tr>
                         </thead>
 
@@ -63,7 +65,8 @@
                                             <span class="text-warning">{{ ucfirst($presence->status) }}</span>
                                         @endif
                                     </td>
-                                    <td class="d-flex gap-1">
+                                    <td >
+                                        @if (Auth::user()->employee?->role_id == '1')
                                         <a href="{{ route('presences.edit', $presence->id) }}"
                                             class="btn btn-warning btn-sm">Edit</a>
                                         <form action="{{ route('presences.destroy', $presence->id) }}" method="POST"
@@ -73,6 +76,7 @@
                                             <button class=" btn btn-danger btn-sm"
                                                 onclick="return confirm('Are you sure delete this data?')">Delete</button>
                                         </form>
+                                        @endif
                                     </td>
                             @endforeach
 

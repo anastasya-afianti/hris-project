@@ -63,6 +63,7 @@
 
                                     <td class="d-flex gap-1">
                                         <a href="{{route('payrolls.show', $payroll->id)}}" class="btn btn-info btn-sm" >Salary Slip</a>
+                                        @if (Auth::user()->employee?->role_id == '1')
                                         <a href="{{ route('payrolls.edit', $payroll->id) }}"
                                             class="btn btn-warning btn-sm">Edit</a>
                                         <form action="{{ route('payrolls.destroy', $payroll->id) }}" method="POST"
@@ -72,6 +73,7 @@
                                             <button class=" btn btn-danger btn-sm"
                                                 onclick="return confirm('Are you sure delete this data?')">Delete</button>
                                         </form>
+                                        @endif
                                     </td>
                             @endforeach
 

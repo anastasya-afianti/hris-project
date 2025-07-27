@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Models\Payroll;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -12,8 +13,14 @@ class PayrollController extends Controller
 {
     public function index()
     {
-        $employees = Employee::all();
+         if (Auth::user()->employee?->role_id == '1'){
+             $employees = Employee::all();
         $payrolls = Payroll::all();
+         }else {
+             $employees = Employee::where('id', Auth::user()->employee?->id)->get();
+             $payrolls = Payroll::where('employee_id', Auth::user()->employee?->id)->get();
+         }
+       
         return view('payrolls.index', compact('payrolls'));
     }
 

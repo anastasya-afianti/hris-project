@@ -18,13 +18,15 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string ...$role): Response
     {
-        $employeeID = Auth::user();
-        $employee = Employee::find($employeeID);
+        $employee = Auth::user();
+       
 
-        $request->session()->put('role', $employee->role->name);
+        $request->session()->put('role', $employee->role_id);
         $request->session()->put('employee_id', $employee->id);
 
-        if(!in_array($employee->role->name, $role)) {
+        // dd($employee->role_id, $role);
+// dd($employee->employee->role_id, $role);
+        if(!in_array($employee->employee->role_id, $role)) {
             abort(403, 'You do not have permission to access this resource.');
         }
         return $next($request);

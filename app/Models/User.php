@@ -48,8 +48,13 @@ class User extends Authenticatable
         ];
     }
 
+    public function role()
+{
+    return $this->belongsTo(Role::class, 'role_id', 'id');
+}
+
     public function employee()
     {
-        return $this->belongsTo(Employee::class, 'email', 'email');
+        return $this->belongsTo(Employee::class, 'employee_id', 'id');
     }
 }

@@ -42,78 +42,144 @@
                         <p>Please fill out the form below</p>
                     </div>
 
-                    <form action="{{ route('presences.store') }}" method="POST">
-                        @csrf
+                    @if (Auth::user()->employee?->role_id == '1')
+                        <form action="{{ route('presences.store') }}" method="POST">
+                            @csrf
 
-                        <div class="mb-4">
-                            <label for="employee_id" class="form-label"><b>Employee Name</b></label>
-                            <select name="employee_id" id="employee_id"
-                                class="form-control @error('employee_id') is-invalid @enderror" required>
-                                <option value="">-- Select Employee --</option>
-                                @foreach ($employees as $employee)
-                                    <option value="{{ $employee->id }}"
-                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
-                                        {{ $employee->fullname }}
+                            <div class="mb-4">
+                                <label for="employee_id" class="form-label"><b>Employee Name</b></label>
+                                <select name="employee_id" id="employee_id"
+                                    class="form-control @error('employee_id') is-invalid @enderror" required>
+                                    <option value="">-- Select Employee --</option>
+                                    @foreach ($employees as $employee)
+                                        <option value="{{ $employee->id }}"
+                                            {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                                            {{ $employee->fullname }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('employee_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label for="check_in" class="form-label"><b>Check In</b></label>
+                                <input type="time" name="check_in" id="check_in"
+                                    class="form-control @error('check_in') is-invalid @enderror"
+                                    value="{{ old('check_in') }}" required>
+                                @error('check_in')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="check_out" class="form-label"><b>Check Out</b></label>
+                                <input type="time" name="check_out" id="check_out"
+                                    class="form-control @error('check_out') is-invalid @enderror"
+                                    value="{{ old('check_out') }}" required>
+                                @error('check_out')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="date" class="form-label"><b>Date</b></label>
+                                <input type="date" name="date" id="date"
+                                    class="form-control @error('date') is-invalid @enderror" value="{{ old('date') }}"
+                                    required>
+                                @error('date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="status" class="form-label"><b>Status</b></label>
+                                <select name="status" id="status"
+                                    class="form-control @error('status') is-invalid @enderror" required>
+                                    <option value="present" {{ old('status') == 'active' ? 'selected' : '' }}>Present
                                     </option>
-                                @endforeach
-                            </select>
-                            @error('employee_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                                    <option value="absent" {{ old('status') == 'non-active' ? 'selected' : '' }}>Absen
+                                    </option>
+                                </select>
+                                @error('status')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <button type="submit" class="btn btn-primary">Create New Presences</button>
+                            <a href="{{ route('presences.index') }}" class="btn btn-secondary">Back To List</a>
+                        </form>
+                    @else
+                        <form action="{{ route('presences.store') }}" method="POST">
+                            @csrf
 
+                            <div class="mb-3"><b>Note:</b>Plis Allowed Your Location For Presence</div>
 
-                       <div class="mb-4">
-                        <label for="check_in" class="form-label"><b>Check In</b></label>
-                        <input type="time" name="check_in" id="check_in"
-                            class="form-control @error('check_in') is-invalid @enderror"
-                            value="{{ old('check_in') }}" required>
-                        @error('check_in')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Latitude</label>
+                                <input type="text" class="form-control" name="latitude" id="latitude" required>
+                            </div>
 
-                    <div class="mb-4">
-                        <label for="check_out" class="form-label"><b>Check Out</b></label>
-                        <input type="time" name="check_out" id="check_out"
-                            class="form-control @error('check_out') is-invalid @enderror"
-                            value="{{ old('check_out') }}" required>
-                        @error('check_out')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                            <div class="mb-3">
+                                <label for="" class="form-label">Longitude</label>
+                                <input type="text" class="form-control" name="longitude" id="longitude" required>
+                            </div>
 
-                     <div class="mb-4">
-                        <label for="date" class="form-label"><b>Date</b></label>
-                        <input type="date" name="date" id="date"
-                            class="form-control @error('date') is-invalid @enderror"
-                            value="{{ old('date') }}" required>
-                        @error('date')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                            <div class="mb-3">
+                                <iframe width="400" height="300" scrolling="no" marginheight="0" marginwidth="0"
+                                    src="" frameborder="0"></iframe>
+                            </div>
 
-                        <div class="mb-4">
-                            <label for="status" class="form-label"><b>Status</b></label>
-                            <select name="status" id="status" class="form-control @error('status') is-invalid @enderror"
-                                required>
-                                <option value="present" {{ old('status') == 'active' ? 'selected' : '' }}>Present</option>
-                                <option value="absent" {{ old('status') == 'non-active' ? 'selected' : '' }}>Absen
-                                </option>
-                            </select>
-                            @error('status')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-
-
-
-                        <button type="submit" class="btn btn-primary">Create New Presences</button>
-                        <a href="{{ route('presences.index') }}" class="btn btn-secondary">Back To List</a>
-                    </form>
+                            <button type="submit" class="btn btn-primary" id="btn-presence">Create New
+                                Presences</button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </section>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const iframe = document.querySelector('iframe');
+            const latitudeInput = document.getElementById('latitude');
+            const longitudeInput = document.getElementById('longitude');
+            const btnPresence = document.getElementById('btn-presence');
+
+            const officeLatitude = -8.213200;
+            const officeLongitude = 113.459000;
+            const threshold = 0.01;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const long = position.coords.longitude;
+
+                    // Set value ke input
+                    latitudeInput.value = lat;
+                    longitudeInput.value = long;
+
+                    // Tampilkan di Google Maps
+                    iframe.src = `https://www.google.com/maps?q=${lat},${long}&output=embed`;
+
+                    // Hitung jarak kasar
+                    const distance = Math.sqrt(Math.pow(lat - officeLatitude, 2) + Math.pow(long -
+                        officeLongitude, 2));
+
+                    if (distance <= threshold) {
+                        alert("You are within the acceptable range to mark your presence.");
+                        // btnPresence.removeAttribute('disabled');
+                    } else {
+                        alert("You are not within the acceptable range to mark your presence.");
+                    }
+                }, function(error) {
+                    alert('Location access denied. Please allow location to use this feature.');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        });
+    </script>
+
 @endsection

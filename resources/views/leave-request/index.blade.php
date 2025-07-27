@@ -44,7 +44,9 @@
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Status</th>
+                                 @if (Auth::user()->employee?->role_id == '1')
                                 <th>Actions</th>
+                                @endif
                             </tr>
                         </thead>
 
@@ -65,32 +67,33 @@
                                             <span class="text-success">{{ ucfirst($request->status) }}</span>
                                         @endif
                                     </td>
-                                 
+
 
                                     <td>
-
-                                        @if ($request->status == 'pending')
-                                            <a href="{{ route('leave-requests.confirm', $request->id) }}"
-                                                class="btn btn-success btn-sm">Confirmed</a>
-                                        @elseif ($request->status == 'confirm')
-                                            <a href="{{ route('leave-requests.reject', $request->id) }}"
-                                                class="btn btn-danger btn-sm">Reject</a>
-                                        @elseif ($request->status == 'reject')
+                                        @if (Auth::user()->employee?->role_id == '1')
+                                            @if ($request->status == 'pending')
+                                                <a href="{{ route('leave-requests.confirm', $request->id) }}"
+                                                    class="btn btn-success btn-sm">Confirmed</a>
+                                            @elseif ($request->status == 'confirm')
+                                                <a href="{{ route('leave-requests.reject', $request->id) }}"
+                                                    class="btn btn-danger btn-sm">Reject</a>
+                                            @elseif ($request->status == 'reject')
                                                 <a href="{{ route('leave-requests.pending', $request->id) }}"
                                                     class="btn btn-warning btn-sm">Pending</a>
-                                        @endif
-                                        <a href="{{ route('leave-requests.edit', $request->id) }}"
-                                            class="btn btn-info btn-sm">Edit</a>
+                                            @endif
+                                            <a href="{{ route('leave-requests.edit', $request->id) }}"
+                                                class="btn btn-info btn-sm">Edit</a>
 
-                                        <form action="{{ route('leave-requests.destroy', $request->id) }}" method="POST"
-                                            style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure want to delete this task?')">
-                                                Delete
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('leave-requests.destroy', $request->id) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure want to delete this task?')">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                             @endforeach
 

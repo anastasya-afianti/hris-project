@@ -14,41 +14,36 @@ use App\Http\Controllers\PayrollController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::middleware(['auth'])->group(function () {
 
-Route::middleware('auth')->group(function(){
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-//Handle Tasks
-Route::resource('/tasks', TaskController::class)->middleware(['role:HR, Finance, IT Support']);
-Route::get('tasks/done/{id}', [TaskController::class, 'done'])->name('tasks.done')->middleware(['role:HR, Finance, IT Support']);
-Route::get('tasks/pending/{id}', [TaskController::class, 'pending'])->name('tasks.pending')->middleware(['role:HR, Finance, IT Support']);
+    // Tasks - role_id 1, 2, 3
+    Route::middleware(['role:1,2,3'])->group(function () {
+        Route::resource('/tasks', TaskController::class);
+        Route::get('tasks/done/{id}', [TaskController::class, 'done'])->name('tasks.done');
+        Route::get('tasks/pending/{id}', [TaskController::class, 'pending'])->name('tasks.pending');
+    });
 
-//Handle Employee
-Route::resource('/employees', EmployeeController::class)->middleware(['role:HR']);
+    // Employees - role_id 1 only
+    Route::middleware(['role:1'])->group(function () {
+        Route::resource('/employees', EmployeeController::class);
+        Route::resource('/departments', DepartmentController::class);
+        Route::resource('/roles', RoleController::class);
+        Route::get('leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm');
+        Route::get('leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
+        Route::get('leave-requests/pending/{id}', [LeaveRequestController::class, 'pending'])->name('leave-requests.pending');
+    });
 
-// Handle department
-Route::resource('/departments', DepartmentController::class)->middleware(['role:HR']);
+    // Presences, Payrolls, Leave Requests - role_id 1, 2, 3
+    Route::middleware(['role:1,2,3'])->group(function () {
+        Route::resource('/presences', PresencesController::class);
+        Route::resource('/payrolls', PayrollController::class);
+        Route::get('/payrolls/{payroll}/pdf', [PayrollController::class, 'exportPdf'])->name('payrolls.pdf');
+        Route::resource('/leave-requests', LeaveRequestController::class);
+    });
 
-// Handle Roles
-Route::resource('/roles', RoleController::class)->middleware(['role:HR']);
-
-// Handle presences
-Route::resource('/presences', PresencesController::class)->middleware(['role:HR, Finance, IT Support'])  ;
-
-// Handle Payrolls
-Route::resource('/payrolls', PayrollController::class)->middleware(['role:HR, Finance, IT Support']);
-Route::get('/payrolls/{payroll}/pdf', [PayrollController::class, 'exportPdf'])->name('payrolls.pdf')->middleware(['role:HR, Finance, IT Support']);
-
-// Handle Leave Request
-Route::resource('/leave-requests',  LeaveRequestController::class)->middleware(['role:HR, Finance, IT Support']);
-Route::get('leave-requests/confirm/{id}', [LeaveRequestController::class, 'confirm'])->name('leave-requests.confirm')->middleware(['role:HR']);
-Route::get('leave-requests/reject/{id}', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject')->middleware(['role:HR']);
-Route::get('leave-requests/pending/{id}', [LeaveRequestController::class, 'pending'])->name('leave-requests.pending')->middleware(['role:HR']);
-});
-
-
-
-Route::middleware('auth')->group(function () {
+    // Profile (semua yang login bisa akses)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

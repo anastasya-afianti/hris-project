@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 use App\Models\LeaveRequest;
 Use App\Models\Employee;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
 {
     public function index(){
-        $employee = Employee::all();
+        if (Auth::user()->employee?->role_id == '1') {
+              $employee = Employee::all();
         $leaveRequest = LeaveRequest::all();
+        } else {
+            $leaveRequest = LeaveRequest::where('employee_id', Auth::user()->employee?->id)->get();
+        }
+     
         return view('leave-request.index', compact('leaveRequest'));
     }
      public function confirm (int $id){
@@ -41,7 +47,8 @@ class LeaveRequestController extends Controller
     }
 
     public function store(Request $request){
-       $validated = $request->validate([
+        if(Auth::user()->employee?->role_id == '1'){
+            $validated = $request->validate([
             'employee_id' => 'required|exists:employees,id',
             'leave_type' => 'required|string|max:255',
             'start_date' => 'required|date',
@@ -49,6 +56,17 @@ class LeaveRequestController extends Controller
             'status' => 'nullable|string|in:pending,confirm,reject',
         ]);
         LeaveRequest::create($validated);
+        }else{
+          LeaveRequest::create([
+            'employee_id' => Auth::user()->employee?->id, // ambil dari user login
+            'leave_type' => $request->leave_type,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => 'pending', // default status for regular users
+        ]);  
+        }
+       
+        
         return redirect()->route('leave-requests.index')->with('success', 'Leave requested successfully');
     }
 

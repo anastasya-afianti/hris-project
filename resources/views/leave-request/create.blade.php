@@ -45,7 +45,9 @@
                     <form action="{{ route('leave-requests.store') }}" method="POST">
                         @csrf
 
-                        <div class="mb-4">
+                        @if (Auth::user()->employee?->role_id == '1')
+                            
+                             <div class="mb-4">
                             <label for="employee_id" class="form-label"><b>Employee Name</b></label>
                             <select name="employee_id" id="employee_id"
                                 class="form-control @error('employee_id') is-invalid @enderror" required>
@@ -61,8 +63,8 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-
-
+                        @endif
+                       
                        <div class="mb-4">
                         <label for="leave_type" class="form-label"><b>Leave Type</b></label>
                         <input type="text" name="leave_type" id="leave_type"
@@ -93,7 +95,7 @@
                         @enderror
                     </div>
 
-                    
+                    @if (Auth::user()->employee?->role_id == '1')
                         <div class="mb-4">
                             <label for="status" class="form-label"><b>Status</b></label>
                             <select name="status" id="status" class="form-control @error('status') is-invalid @enderror"
@@ -109,6 +111,9 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        
+                    @endif
+                        
 
                         <button type="submit" class="btn btn-primary">Create New Requests</button>
                         <a href="{{ route('leave-requests.index') }}" class="btn btn-secondary">Back To List</a>

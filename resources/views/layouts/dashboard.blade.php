@@ -76,7 +76,7 @@
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        @if (session('role') == 'HR')
+                        @if (Auth::user()->employee?->role_id == '1')
                             
                         
                         {{-- Menu Dashboard --}}
@@ -148,7 +148,7 @@
 
                         @endif
 
-                        @if (!in_array(session('role'), ['HR', 'Finance', 'IT Support']))
+                        @if (!in_array(Auth::user()->employee?->role_id, ['1']))
                            <li class="sidebar-item {{ request()->is('tasks') ? 'active' : '' }} ">
                             <a href="{{ url('/tasks') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
